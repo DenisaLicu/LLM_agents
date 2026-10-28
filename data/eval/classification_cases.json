@@ -1,0 +1,47 @@
+[
+  {
+    "id": "invoice_001",
+    "text": "INVOICE #INV-2026-001\nSupplier: Acme Ltd.\nCustomer: Example Corp.\nTotal: EUR 450\nDue date: 15 November 2026",
+    "expected": {
+      "document_type": "invoice",
+      "language": "en",
+      "requires_review": false
+    }
+  },
+  {
+    "id": "purchase_order_001",
+    "text": "PURCHASE ORDER #PO-2026-014\nBuyer: Example Corp.\nSupplier: Acme Ltd.\nItem: Office chairs\nQuantity: 10\nUnit price: EUR 120\nPlease deliver by 20 November 2026.",
+    "expected": {
+      "document_type": "purchase_order",
+      "language": "en",
+      "requires_review": false
+    }
+  },
+  {
+    "id": "receipt_001",
+    "text": "PAYMENT RECEIPT\nTransaction #TX-39281\nDate: 12 October 2026\nAmount paid: EUR 89.50\nPayment method: Card\nStatus: Paid",
+    "expected": {
+      "document_type": "receipt",
+      "language": "en",
+      "requires_review": false
+    }
+  },
+  {
+    "id": "agenda_001",
+    "text": "TEAM MEETING AGENDA\n1. Project updates\n2. Sprint planning\n3. Risk review\n4. Next steps",
+    "expected": {
+      "document_type": "other",
+      "language": "en",
+      "requires_review": false
+    }
+  },
+  {
+    "id": "ambiguous_001",
+    "text": "Hello,\n\nPlease find the attached information.\nWe discussed the amount yesterday.\n\nBest regards,\nAlex",
+    "expected": {
+      "document_type": "other",
+      "language": "en",
+      "requires_review": true
+    }
+  }
+]
