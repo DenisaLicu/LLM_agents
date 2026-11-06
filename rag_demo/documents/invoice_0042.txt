@@ -1,0 +1,11 @@
+Invoice: INV-2025-0042
+Supplier: ABC Ltd
+Customer: XYZ Corp
+Issue Date: 2025-10-01
+Due Date: 2025-10-31
+
+Items:
+Consulting services: EUR 2,000
+Software license: EUR 500
+
+Total: EUR 2,500
