@@ -11,6 +11,22 @@
    3. An agent built with LangChain in [`3_langchain_agent.py`](./agent_demo/3_langchain_agent.py).
    4. Adding LangGraph to create a workflow in [`4_langgraph_workflow.py`](./agent_demo/4_langgraph_workflow.py).
 
+## Configure your OpenAI API key
+
+The project uses OpenAI API and you need to provide an API key. [Create one in the OpenAI Platform](https://platform.openai.com/api-keys), then create a `.env` file in the project root with:
+
+```dotenv
+OPENAI_API_KEY=your_api_key_here
+```
+
+Replace `your_api_key_here` with your key. The examples load this variable from the environment, and `.env` is listed in `.gitignore` so it won't be committed. Keep your key private and do not paste it into source files.
+
+Run the main example from the project root with:
+
+```bash
+uv run python main.py
+```
+
 ## Install dependencies
 
 This project requires Python 3.12 or newer and uses `pyproject.toml` with `uv.lock` to manage dependencies.
