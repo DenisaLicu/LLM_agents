@@ -1,5 +1,7 @@
 from typing import TypedDict
 from langgraph.graph import StateGraph, START, END
+from langgraph.checkpoint.memory import InMemorySaver
+from langgraph.types import Command, interrupt
 from importlib import import_module
 
 evaluate_supplier_status = import_module("2_agent").evaluate_supplier_status
@@ -14,6 +16,7 @@ class InvoiceState(TypedDict, total=False):
     investigation: str
     decision: dict
     status: str
+    review_decision: str
 
 
 # 2. Define workflow nodes
@@ -41,8 +44,26 @@ def route(state: InvoiceState) -> str:
     return "complete_check"
 
 
+
 def mark_for_review(state: InvoiceState) -> dict:
-    return {"status": "awaiting_review"}
+    reviewer_response = interrupt({
+        "invoice_id": state["invoice_id"],
+        "reason": state["decision"]["reason"],
+        "message": "Manual review required",
+    })
+
+    if reviewer_response not in ("acknowledged", "rejected"):
+        raise ValueError("Invalid reviewer decision")
+
+    return {
+        "review_decision": reviewer_response,
+        "status": (
+            "review_acknowledged"
+            if reviewer_response == "acknowledged"
+            else "review_rejected"
+        ),
+    }
+
 
 
 def complete_check(state: InvoiceState) -> dict:
@@ -72,15 +93,34 @@ builder.add_conditional_edges(
 builder.add_edge("mark_for_review", END)
 builder.add_edge("complete_check", END)
 
-workflow = builder.compile()
+#enable checkpointing
+workflow = builder.compile(checkpointer=InMemorySaver())
 
 
 # 4. Run it
 if __name__ == "__main__":
-    result = workflow.invoke({
-        "invoice_id": "INV-2025-0050"
-    })
+    config = {
+        "configurable": {
+            "thread_id": "invoice-review-0050"
+        }
+    }
 
-    print("Status:", result["status"])
-    print("Decision:", result["decision"])
-    print("Investigation:", result["investigation"])
+    # First invocation: execute until human review
+    result = workflow.invoke(
+        {"invoice_id": "INV-2025-0050"},
+        config=config,
+    )
+
+    print("Interrupt:", result.get("__interrupt__"))
+    print("Saved status:", workflow.get_state(config).values.get("status"))
+
+    # Simulate a reviewer acknowledging the issue
+    resumed = workflow.invoke(
+        Command(resume="acknowledged"),
+        config=config,
+    )
+
+    print("\nAfter resuming:")
+    print("Status:", resumed["status"])
+    print("Review decision:", resumed["review_decision"])
+
