@@ -1,5 +1,6 @@
 # LLM Agents
 
+
 ## What's in this project
 
 1. [`main.py`](./main.py) demonstrates calling the OpenAI API to classify a document and return structured output.
@@ -10,6 +11,9 @@
    2. An agent implemented in Python in [`2_agent.py`](./agent_demo/2_agent.py).
    3. An agent built with LangChain in [`3_langchain_agent.py`](./agent_demo/3_langchain_agent.py).
    4. Adding LangGraph to create a workflow in [`4_langgraph_workflow.py`](./agent_demo/4_langgraph_workflow.py).
+    #### Invoice problem
+
+The agent demo explores an invoice investigation assistant. Given an invoice ID, it retrieves the invoice total and payment status, checks whether the supplier is active, and flags missing information or inactive suppliers for review. The examples use fictional data.
 
 ## Configure your OpenAI API key
 
