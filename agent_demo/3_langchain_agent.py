@@ -1,10 +1,14 @@
 import json
+from importlib import import_module
 from dotenv import load_dotenv
 from langchain.agents import create_agent
 from langchain.tools import tool
 from langchain_openai import ChatOpenAI
 
-from agent import get_invoice, get_supplier, evaluate_supplier_status
+_agent_module = import_module("2_agent")
+get_invoice = _agent_module.get_invoice
+get_supplier = _agent_module.get_supplier
+evaluate_supplier_status = _agent_module.evaluate_supplier_status
 
 
 load_dotenv()

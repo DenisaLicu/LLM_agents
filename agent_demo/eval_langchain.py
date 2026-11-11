@@ -1,6 +1,8 @@
 
-from langchain_agent import run_langchain_agent
-from eval import TEST_CASES
+from importlib import import_module
+
+run_langchain_agent = import_module("3_langchain_agent").run_langchain_agent
+TEST_CASES = import_module("eval_agent").TEST_CASES
 
 
 passed = 0

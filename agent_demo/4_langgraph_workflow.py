@@ -1,10 +1,9 @@
-
 from typing import TypedDict
-
 from langgraph.graph import StateGraph, START, END
+from importlib import import_module
 
-from agent import evaluate_supplier_status
-from langchain_agent import run_langchain_agent
+evaluate_supplier_status = import_module("2_agent").evaluate_supplier_status
+run_langchain_agent = import_module("3_langchain_agent").run_langchain_agent
 
 
 # 1. Define shared workflow state

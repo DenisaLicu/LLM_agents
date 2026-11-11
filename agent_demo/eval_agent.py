@@ -1,4 +1,6 @@
-from agent import run_agent
+from importlib import import_module
+
+run_agent = import_module("2_agent").run_agent
 
 TEST_CASES = [
     {
